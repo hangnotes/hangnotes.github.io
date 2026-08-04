@@ -1,0 +1,11 @@
+# Jekyll
+_site/
+
+# Mac OS X
+.DS_Store
+
+# Temporary files
+*.temp
+.jekyll-cache/
+.idea/
+*.backup
