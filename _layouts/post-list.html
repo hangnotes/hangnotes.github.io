@@ -36,8 +36,8 @@ layout: default
     {% endif %}
     <div class="post-item-meta">
       {{ post.date | date: "%B %-d, %Y" }}
-      {% assign words = post.content | strip_html | number_of_words %}
-      {% assign read_time = words | divided_by: 200 | plus: 1 %}
+      {% assign chars = post.content | strip_html | strip_newlines | size %}
+      {% assign read_time = chars | divided_by: 350 | plus: 1 %}
       &bull; {{ read_time }} min read
     </div>
   </li>
