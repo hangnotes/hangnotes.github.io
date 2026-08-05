@@ -293,26 +293,26 @@ a.pagination-number:hover {
   display: inline-block;
   padding: 4px 10px;
   font-size: 0.875em;
-  background-color: #f7f7f7;
+  background-color: var(--card-bg);
   border-radius: 4px;
-  color: $content-color;
+  color: var(--text-color);
   text-decoration: none;
   border-bottom: none !important;
   transition: all 0.2s ease-in-out;
 
   &:hover {
-    background-color: #333333;
-    color: #ffffff;
+    background-color: var(--text-color);
+    color: var(--bg-color);
 
     .tag-count {
-      color: rgba(255, 255, 255, 0.7);
+      color: var(--bg-color);
     }
   }
 }
 
 .tag-count {
   font-size: 0.8em;
-  color: lighten($content-color, 40%);
+  color: var(--meta-color);
 }
 
 .tag-section {
@@ -321,8 +321,87 @@ a.pagination-number:hover {
   .tag-section-title {
     font-size: 1.3em;
     font-weight: bold;
-    border-bottom: 1px solid $border-color;
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 8px;
     margin-bottom: $spacing-unit / 2;
   }
+}
+
+// Theme Toggle Button
+.theme-toggle-btn {
+  background: var(--toggle-btn-bg);
+  color: var(--toggle-btn-color);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 12px;
+  padding: 0;
+  transition: all 0.2s ease;
+  font-size: 0.9em;
+
+  &:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+// Search Box
+.search-container {
+  position: relative;
+  margin-bottom: $spacing-unit;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 14px;
+  padding-right: 36px;
+  font-size: 0.95em;
+  font-family: inherit;
+  color: var(--text-color);
+  background-color: var(--input-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:focus {
+    border-color: var(--text-color);
+    box-shadow: 0 0 0 2px var(--shadow-color);
+  }
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.2em;
+  color: var(--meta-color);
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+
+  &:hover {
+    color: var(--text-color);
+  }
+}
+
+.search-results-info {
+  font-size: 0.85em;
+  color: var(--meta-color);
+  margin-bottom: $spacing-unit / 2;
+  font-style: italic;
+}
+
+.no-search-results {
+  padding: $spacing-unit 0;
+  color: var(--meta-color);
+  font-style: italic;
 }

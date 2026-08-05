@@ -6,6 +6,13 @@ layout: default
 
 {% include header.html %}
 
+<div class="search-container">
+  <input type="text" id="search-input" class="search-input" placeholder="Search posts..." aria-label="Search posts" autocomplete="off">
+  <button id="search-clear" class="search-clear-btn" style="display: none;" aria-label="Clear search" type="button">&times;</button>
+</div>
+
+<div id="search-results-count" class="search-results-info" style="display: none;"></div>
+
 <ul class="post-list">
   {% if page.filter %}
   {% assign filtered_posts = site.posts %}
@@ -78,3 +85,86 @@ layout: default
   </div>
 </nav>
 {% endif %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var searchInput = document.getElementById('search-input');
+  var searchClear = document.getElementById('search-clear');
+  var searchCount = document.getElementById('search-results-count');
+  var postList = document.querySelector('.post-list');
+  var paginationNav = document.querySelector('.pagination');
+  var searchData = null;
+
+  if (!searchInput || !postList) return;
+
+  var originalPostListHTML = postList.innerHTML;
+
+  function loadSearchData(cb) {
+    if (searchData) { cb(searchData); return; }
+    fetch('{{ "/search.json" | relative_url }}')
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        searchData = data;
+        cb(searchData);
+      })
+      .catch(function(err) {
+        console.error('Failed to load search index:', err);
+      });
+  }
+
+  function renderResults(results) {
+    if (results.length === 0) {
+      postList.innerHTML = '<li class="no-search-results">No matching posts found.</li>';
+      searchCount.textContent = 'Found 0 matching posts';
+      searchCount.style.display = 'block';
+      return;
+    }
+
+    searchCount.textContent = 'Found ' + results.length + ' post' + (results.length > 1 ? 's' : '');
+    searchCount.style.display = 'block';
+
+    var html = '';
+    results.forEach(function(item) {
+      html += '<li class="post-list-item">';
+      html += '<a class="post-item-link" href="' + item.url + '">' + item.title + '</a>';
+      if (item.excerpt) {
+        html += '<p class="post-description">' + item.excerpt + '</p>';
+      }
+      html += '<div class="post-item-meta">' + item.date + '</div>';
+      html += '</li>';
+    });
+    postList.innerHTML = html;
+  }
+
+  searchInput.addEventListener('input', function() {
+    var query = searchInput.value.trim().toLowerCase();
+
+    if (query === '') {
+      searchClear.style.display = 'none';
+      searchCount.style.display = 'none';
+      postList.innerHTML = originalPostListHTML;
+      if (paginationNav) paginationNav.style.display = '';
+      return;
+    }
+
+    searchClear.style.display = 'inline-block';
+    if (paginationNav) paginationNav.style.display = 'none';
+
+    loadSearchData(function(data) {
+      var filtered = data.filter(function(post) {
+        var titleMatch = post.title.toLowerCase().indexOf(query) !== -1;
+        var tagMatch = post.tags ? post.tags.toLowerCase().indexOf(query) !== -1 : false;
+        var excerptMatch = post.excerpt ? post.excerpt.toLowerCase().indexOf(query) !== -1 : false;
+        return titleMatch || tagMatch || excerptMatch;
+      });
+      renderResults(filtered);
+    });
+  });
+
+  searchClear.addEventListener('click', function() {
+    searchInput.value = '';
+    searchInput.dispatchEvent(new Event('input'));
+    searchInput.focus();
+  });
+});
+</script>

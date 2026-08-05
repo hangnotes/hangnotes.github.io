@@ -4,11 +4,13 @@
 [lang^="ja"]      { line-height: 1.8; @include font-serif-ja; }
 
 body {
-  color: $content-color;
+  color: var(--text-color);
+  background-color: var(--bg-color);
   font-size: font-size();
   font-weight: 300;
   font-kerning: normal;
   border-top: 2px solid currentColor;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 a, a:hover, a:visited {

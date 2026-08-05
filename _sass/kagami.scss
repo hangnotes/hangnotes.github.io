@@ -15,6 +15,47 @@ $inline-code-background: #fff6f6;
 $block-code-background: #f2f2fa;
 $mark-background: rgba(yellow, 0.35);
 
+:root {
+  --bg-color: #ffffff;
+  --text-color: #3c3c3c;
+  --border-color: #f0f0f0;
+  --meta-color: #888888;
+  --card-bg: #f7f7f7;
+  --code-bg: #f2f2fa;
+  --input-bg: #ffffff;
+  --toggle-btn-bg: #f4f4f5;
+  --toggle-btn-color: #3c3c3c;
+  --shadow-color: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] {
+  --bg-color: #18181a;
+  --text-color: #e0e0e0;
+  --border-color: #2e2e32;
+  --meta-color: #909095;
+  --card-bg: #222225;
+  --code-bg: #232328;
+  --input-bg: #222225;
+  --toggle-btn-bg: #2e2e32;
+  --toggle-btn-color: #e0e0e0;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg-color: #18181a;
+    --text-color: #e0e0e0;
+    --border-color: #2e2e32;
+    --meta-color: #909095;
+    --card-bg: #222225;
+    --code-bg: #232328;
+    --input-bg: #222225;
+    --toggle-btn-bg: #2e2e32;
+    --toggle-btn-color: #e0e0e0;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+  }
+}
+
 @import "kagami/scut";
 @import "kagami/reset";
 @import "kagami/utility";

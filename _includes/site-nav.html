@@ -3,4 +3,38 @@
   {% for my_page in sorted_pages %}
   <a class="page-link" href="{{ my_page.url | relative_url }}" >{{ my_page.navtitle | default: my_page.title | escape }}</a>
   {% endfor %}
+  <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme" type="button" title="Toggle Light/Dark Theme">
+    <span class="theme-toggle-icon">🌙</span>
+  </button>
 </nav>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var toggleBtn = document.getElementById('theme-toggle');
+    if (!toggleBtn) return;
+
+    function getEffectiveTheme() {
+      var current = document.documentElement.getAttribute('data-theme');
+      if (current) return current;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    function updateIcon() {
+      var theme = getEffectiveTheme();
+      var icon = toggleBtn.querySelector('.theme-toggle-icon');
+      if (icon) {
+        icon.textContent = (theme === 'dark') ? '☀️' : '🌙';
+      }
+    }
+
+    updateIcon();
+
+    toggleBtn.addEventListener('click', function() {
+      var current = getEffectiveTheme();
+      var newTheme = (current === 'dark') ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateIcon();
+    });
+  });
+</script>
