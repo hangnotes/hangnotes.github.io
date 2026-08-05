@@ -4,6 +4,7 @@ title: 关于
 permalink: /about/
 navlevel: header
 navtitle: about
+position: 1
 ---
 
 我想以后自己买个房子，然后好好读书，平静生活。

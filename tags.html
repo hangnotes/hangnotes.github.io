@@ -1,0 +1,56 @@
+---
+layout: default
+title: Tags
+permalink: /tags/
+navlevel: header
+navtitle: tags
+position: 2
+---
+
+{% include site-nav.html %}
+
+<header class="post-header">
+  <a class="site-title" href="{{ "/" | relative_url }}">{{ site.title | escape }}</a>
+  <br/>
+  <br/>
+  <h1 class="post-title">Tags</h1>
+</header>
+
+<div class="tags-container">
+  {% assign tags = site.tags | sort %}
+  <ul class="tag-cloud">
+    {% for tag in tags %}
+      {% assign tag_name = tag[0] %}
+      {% assign tag_posts = tag[1] %}
+      <li>
+        <a href="#{{ tag_name | slugify }}" class="tag-chip">
+          {{ tag_name }} <span class="tag-count">({{ tag_posts.size }})</span>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <hr />
+
+  <div class="tag-sections">
+    {% for tag in tags %}
+      {% assign tag_name = tag[0] %}
+      {% assign tag_posts = tag[1] %}
+      <section id="{{ tag_name | slugify }}" class="tag-section">
+        <h2 class="tag-section-title"># {{ tag_name }}</h2>
+        <ul class="post-list">
+          {% for post in tag_posts %}
+            <li class="post-list-item">
+              <a class="post-item-link" href="{{ post.url | relative_url }}">
+                {{ post.title | escape }}
+              </a>
+              <div class="post-item-meta">
+                {{ post.date | date: "%B %-d, %Y" }}
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </section>
+    {% endfor %}
+  </div>
+</div>
