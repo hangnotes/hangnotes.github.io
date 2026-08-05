@@ -27,7 +27,7 @@ def main():
         if not slug:
             slug = "post-" + datetime.datetime.now().strftime("%H%M%S")
 
-    today = datetime.datetime.now()
+    today = datetime.datetime.now().astimezone()
     date_str = today.strftime("%Y-%m-%d")
     datetime_str = today.strftime("%Y-%m-%d %H:%M:%S %z")
 
