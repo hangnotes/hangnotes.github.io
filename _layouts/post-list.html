@@ -26,7 +26,7 @@ layout: default
   {% assign posts = posts | split: " " | sort | uniq %}
   {% assign posts = site.posts | where_exp: "post", "posts contains post.path" %}
   {% else %}
-  {% assign posts = site.posts %}
+  {% assign posts = paginator.posts | default: site.posts %}
   {% endif %}
   {% for post in posts %}
   <li class="post-list-item" data-tags="{{ post.tags | join: " " }}">
@@ -42,3 +42,38 @@ layout: default
   </li>
   {% endfor %}
 </ul>
+
+{% if paginator.total_pages > 1 %}
+<nav class="pagination" aria-label="Pagination">
+  <div class="pagination-nav">
+    {% if paginator.previous_page %}
+      {% if paginator.previous_page == 1 %}
+        <a href="{{ '/' | relative_url }}" class="pagination-item prev">&laquo; Prev</a>
+      {% else %}
+        <a href="{{ paginator.previous_page_path | relative_url }}" class="pagination-item prev">&laquo; Prev</a>
+      {% endif %}
+    {% else %}
+      <span class="pagination-item prev disabled">&laquo; Prev</span>
+    {% endif %}
+
+    <div class="pagination-pages">
+      {% for page_num in (1..paginator.total_pages) %}
+        {% if page_num == paginator.page %}
+          <span class="pagination-number current">{{ page_num }}</span>
+        {% elsif page_num == 1 %}
+          <a href="{{ '/' | relative_url }}" class="pagination-number">{{ page_num }}</a>
+        {% else %}
+          {% assign page_path = site.paginate_path | replace: ':num', page_num %}
+          <a href="{{ page_path | relative_url }}" class="pagination-number">{{ page_num }}</a>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% if paginator.next_page %}
+      <a href="{{ paginator.next_page_path | relative_url }}" class="pagination-item next">Next &raquo;</a>
+    {% else %}
+      <span class="pagination-item next disabled">Next &raquo;</span>
+    {% endif %}
+  </div>
+</nav>
+{% endif %}

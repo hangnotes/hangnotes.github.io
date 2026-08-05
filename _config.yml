@@ -31,8 +31,12 @@ github_username:  hangyan
 # theme: jekyll-theme-kagami
 
 
+paginate: 10
+paginate_path: "/page:num/"
+
 plugins:
   - jekyll-feed
+  - jekyll-paginate
 
 # Exclude from processing.
 # The following items will not be processed, by default.
