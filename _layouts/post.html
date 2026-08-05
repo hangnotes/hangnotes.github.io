@@ -13,7 +13,7 @@ layout: default
   <footer class="post-footer">
     <div class="post-meta">
       {% if page.date %} <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time> {% endif %}
-      {% assign words = content | strip_html | number_of_words: 'cjk' %}
+      {% assign words = content | strip_html | number_of_words %}
       {% assign read_time = words | divided_by: 200 | plus: 1 %}
       &bull; {{ read_time }} min read
       {% if page.author %} by <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author | escape }}</span></span> {% endif %}
